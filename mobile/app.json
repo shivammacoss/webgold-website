@@ -1,0 +1,30 @@
+{
+  "expo": {
+    "name": "mysafeGold",
+    "slug": "mysafegold",
+    "scheme": "mysafegold",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "dark",
+    "newArchEnabled": true,
+    "splash": {
+      "backgroundColor": "#0A0A0A",
+      "resizeMode": "contain"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.mysafegold.app"
+    },
+    "android": {
+      "package": "com.mysafegold.app"
+    },
+    "plugins": ["expo-router", "expo-secure-store"],
+    "experiments": {
+      "typedRoutes": true
+    },
+    "extra": {
+      "apiUrl": "http://localhost:8000",
+      "_apiUrlNote": "Dev: leave as localhost — runtime auto-detects the LAN IP from Expo hostUri so the phone can reach the Mac. Prod: set to https://api.yourdomain"
+    }
+  }
+}

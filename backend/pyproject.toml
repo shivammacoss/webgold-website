@@ -1,0 +1,31 @@
+[project]
+name = "mysafe-gold-backend"
+version = "0.1.0"
+description = "mysafeGold FastAPI backend (MongoDB + Beanie)"
+requires-python = ">=3.11"
+dependencies = [
+    "fastapi>=0.115",
+    "uvicorn[standard]>=0.30",
+    "beanie>=2.0",
+    "pymongo>=4.13",
+    "pydantic>=2.7",
+    "pydantic-settings>=2.4",
+    "passlib[bcrypt]>=1.7",
+    "bcrypt<5",  # passlib 1.7.x incompatible with bcrypt 5.x
+    "python-jose[cryptography]>=3.3",
+    "httpx>=0.27",
+    "apscheduler>=3.10",
+    "email-validator>=2.2",
+    "python-multipart>=0.0.9",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "pytest-asyncio>=0.23",
+    "ruff>=0.5",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"

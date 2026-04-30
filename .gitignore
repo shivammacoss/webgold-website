@@ -1,0 +1,45 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# Editors
+.idea/
+.vscode/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+*.egg-info/
+
+# Node
+node_modules/
+.pnpm-store/
+.next/
+.turbo/
+dist/
+build/
+
+# Expo
+.expo/
+.expo-shared/
+ios/
+android/
+
+# Env
+.env
+.env.local
+.env.*.local
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+
+# Coverage
+coverage/
+
+# Lockfile note: keep web's pnpm-lock.yaml & mobile's package-lock.json once first install runs.
