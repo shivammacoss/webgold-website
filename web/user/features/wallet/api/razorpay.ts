@@ -3,6 +3,10 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { api } from "@/lib/api-client";
+// Side-effect import: pulls in the global `window.Razorpay` declaration once
+// for the whole app. Both deposit + buy-gold Razorpay clients import this.
+import type { RazorpayHandlerResponse } from "@/lib/razorpay-types";
+import "@/lib/razorpay-types";
 
 import type { Wallet } from "../types";
 
@@ -19,34 +23,6 @@ interface RazorpayVerifyIn {
   razorpay_payment_id: string;
   razorpay_signature: string;
   amount_inr: number;
-}
-
-declare global {
-  interface Window {
-    Razorpay: new (options: RazorpayCheckoutOptions) => {
-      open(): void;
-      on(event: string, cb: (resp: unknown) => void): void;
-    };
-  }
-}
-
-interface RazorpayCheckoutOptions {
-  key: string;
-  amount: number;       // paise
-  currency: string;
-  name: string;
-  description?: string;
-  order_id: string;
-  prefill?: { email?: string; contact?: string; name?: string };
-  theme?: { color?: string };
-  handler: (resp: RazorpayHandlerResponse) => void;
-  modal?: { ondismiss?: () => void };
-}
-
-interface RazorpayHandlerResponse {
-  razorpay_order_id: string;
-  razorpay_payment_id: string;
-  razorpay_signature: string;
 }
 
 /** Create a Razorpay order on the backend. Returns what Checkout needs. */

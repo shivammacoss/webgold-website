@@ -2,8 +2,11 @@
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-import { api } from "@/lib/api-client";
 import type { Wallet } from "@/features/wallet/types";
+import { api } from "@/lib/api-client";
+// Side-effect import: pulls in the global `window.Razorpay` declaration once.
+import type { RazorpayHandlerResponse } from "@/lib/razorpay-types";
+import "@/lib/razorpay-types";
 
 interface RzpOrderOut {
   order_id: string;
@@ -18,31 +21,6 @@ interface RzpVerifyIn {
   razorpay_payment_id: string;
   razorpay_signature: string;
   amount_inr: number;
-}
-
-declare global {
-  interface Window {
-    Razorpay: new (options: RazorpayCheckoutOptions) => {
-      open(): void;
-    };
-  }
-}
-
-interface RazorpayCheckoutOptions {
-  key: string;
-  amount: number;
-  currency: string;
-  name: string;
-  description?: string;
-  order_id: string;
-  prefill?: { email?: string; contact?: string; name?: string };
-  theme?: { color?: string };
-  handler: (resp: {
-    razorpay_order_id: string;
-    razorpay_payment_id: string;
-    razorpay_signature: string;
-  }) => void;
-  modal?: { ondismiss?: () => void };
 }
 
 export function useCreateBuyGoldRazorpayOrder() {
@@ -77,11 +55,7 @@ export function useVerifyBuyGoldRazorpayPayment() {
 export function openRazorpayForBuy(
   order: RzpOrderOut,
   prefill?: { email?: string; name?: string; contact?: string },
-): Promise<{
-  razorpay_order_id: string;
-  razorpay_payment_id: string;
-  razorpay_signature: string;
-}> {
+): Promise<RazorpayHandlerResponse> {
   return new Promise((resolve, reject) => {
     if (typeof window === "undefined" || !window.Razorpay) {
       return reject(new Error("Razorpay Checkout failed to load"));
