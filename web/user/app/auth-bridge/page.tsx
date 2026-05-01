@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 
 import { Loader } from "@/components/common/loader";
 import { tokenStore } from "@/features/auth/store/auth-store";
@@ -14,8 +14,20 @@ import { tokenStore } from "@/features/auth/store/auth-store";
  * user app on :3000), so the admin opens this page with the tokens in the
  * query string. We persist them under the user app's keys, then redirect
  * to /home. The URL is replaced so the tokens don't linger in browser history.
+ *
+ * Next.js 15 needs `useSearchParams` to live inside a <Suspense> boundary
+ * so the surrounding page can be prerendered without depending on the
+ * request URL — split into an inner client component for that reason.
  */
 export default function AuthBridgePage() {
+  return (
+    <Suspense fallback={<Loader label="Signing you in…" />}>
+      <AuthBridgeInner />
+    </Suspense>
+  );
+}
+
+function AuthBridgeInner() {
   const router = useRouter();
   const params = useSearchParams();
   const [error, setError] = useState<string | null>(null);
