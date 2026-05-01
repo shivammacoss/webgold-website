@@ -1,0 +1,29 @@
+# mysafeGold backend — production dependencies
+# Install with: pip install -r requirements.txt
+# (mirrors the [project] dependencies in pyproject.toml — keep in sync)
+
+# Web framework + ASGI server
+fastapi>=0.115
+uvicorn[standard]>=0.30
+
+# Database (PostgreSQL via SQLAlchemy 2.x async + asyncpg driver)
+sqlalchemy[asyncio]>=2.0.30
+asyncpg>=0.29
+alembic>=1.13
+
+# Validation + settings
+pydantic>=2.7
+pydantic-settings>=2.4
+email-validator>=2.2
+
+# Auth
+passlib[bcrypt]>=1.7
+bcrypt<5            # passlib 1.7.x is incompatible with bcrypt 5.x
+python-jose[cryptography]>=3.3
+python-multipart>=0.0.9
+
+# HTTP client (gold-rate fetcher, Razorpay, IP geo, reverse-geo)
+httpx>=0.27
+
+# Background jobs (FD maturity)
+apscheduler>=3.10

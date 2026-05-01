@@ -1,0 +1,2 @@
+# Use LF in the repository and working tree (consistent across OS; avoids CRLF warnings on Windows).
+* text=auto eol=lf
