@@ -25,7 +25,7 @@ function resolveApiUrl(): string {
   return explicit || "http://localhost:8000";
 }
 
-const API_URL = resolveApiUrl();
+const API_URL = `${resolveApiUrl().replace(/\/+$/, "")}/api/v1`;
 
 export class ApiError extends Error {
   status: number;

@@ -1,27 +1,14 @@
-import logging
-from contextlib import asynccontextmanager
-
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.config import get_settings
-from app.db import init_db
-from app.routers import auth, fd, gold, invest, portfolio, referrals, wallet
-from app.services.fd_scheduler import start_scheduler
+from app.api.v1.router import api_router
+from app.core.config import get_settings
+from app.core.logging import configure_logging
+from app.exceptions.handlers import register_exception_handlers
+from app.lifespan import lifespan
 
-logging.basicConfig(level=logging.INFO)
+configure_logging()
 settings = get_settings()
-
-
-@asynccontextmanager
-async def lifespan(app: FastAPI):
-    await init_db()
-    sched = start_scheduler()
-    try:
-        yield
-    finally:
-        sched.shutdown(wait=False)
-
 
 app = FastAPI(title="mysafeGold API", version="0.1.0", lifespan=lifespan)
 
@@ -33,15 +20,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(auth.router)
-app.include_router(gold.router)
-app.include_router(wallet.router)
-app.include_router(invest.router)
-app.include_router(fd.router)
-app.include_router(portfolio.router)
-app.include_router(referrals.router)
+register_exception_handlers(app)
+app.include_router(api_router)
 
 
 @app.get("/")
 def health() -> dict:
-    return {"status": "ok", "app": "mysafeGold", "db": "mongodb"}
+    return {"status": "ok", "app": "mysafeGold", "db": "postgresql"}

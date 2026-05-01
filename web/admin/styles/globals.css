@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --brand-bg: #0b0b0c;
+  --brand-surface: #141416;
+  --brand-fg: #f5f1e8;
+  --brand-fg-dim: #9a958a;
+  --brand-gold: #e5b547;
+}
+
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html,
+body {
+  background: var(--brand-bg);
+  color: var(--brand-fg);
+  font-family: var(--font-sans, system-ui), -apple-system, sans-serif;
+}
+
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
